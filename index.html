@@ -368,7 +368,7 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .reviews-marquee{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);transform:translateZ(0)}
 .reviews-track{display:flex;gap:clamp(1rem,1.6vw,1.4rem);width:max-content;animation:revscroll 75s linear infinite;will-change:transform}
 .reviews-marquee:hover .reviews-track{animation-play-state:paused}
-@keyframes revscroll{to{transform:translateX(-50%)}}
+@keyframes revscroll{to{transform:translateX(var(--rev-loop,-50%))}}
 @media(prefers-reduced-motion:reduce){.reviews-track{animation:none}.reviews-marquee{overflow-x:auto}}
 .rev-card{flex:0 0 min(82vw,360px);align-self:stretch;display:flex;flex-direction:column;background:var(--ink-raise);border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.8rem;transition:transform .5s var(--ease),border-color .5s var(--ease)}
 .rev-card:hover{transform:translateY(-4px);border-color:rgba(198,139,79,.42)}
@@ -380,9 +380,12 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .rev-name{color:var(--cream);font-weight:600;font-size:.96rem}
 .rev-meta{color:var(--muted);font-size:.78rem;margin-top:.12rem}
 @media(max-width:760px){
-  .reviews-track{animation-duration:48s}
-  .rev-card{flex:0 0 min(70vw,280px);padding:1.4rem 1.5rem}
-  .rev-text{font-size:.92rem}
+  .reviews-track{animation-duration:42s}
+  .rev-card{flex:0 0 min(56vw,220px);padding:1.1rem 1.2rem}
+  .rev-text{font-size:.82rem;line-height:1.5;margin-bottom:.9rem}
+  .rev-avatar{width:32px;height:32px;font-size:.88rem}
+  .rev-name{font-size:.86rem}
+  .rev-meta{font-size:.7rem}
 }
 @media(max-width:1000px){.reviews-grid{columns:2}}
 @media(max-width:640px){.reviews-grid{columns:1}}
@@ -1106,6 +1109,19 @@ if(reduce){document.querySelectorAll('video').forEach(function(v){try{v.removeAt
   if(pv)pv.addEventListener('click',function(){go(active-1);});
   if(nx)nx.addEventListener('click',function(){go(active+1);});
   layout(); renderText(); restart();
+})();
+/* ===== Reviews marquee: pixel-exact seamless loop ===== */
+(function(){
+  var track=document.querySelector('.reviews-track'); if(!track)return;
+  function setLoop(){
+    var cards=track.children, half=cards.length/2;
+    if(half<1)return;
+    var dist=cards[half].offsetLeft-cards[0].offsetLeft;
+    if(dist>0)track.style.setProperty('--rev-loop',(-dist)+'px');
+  }
+  setLoop();
+  addEventListener('resize',setLoop);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(setLoop);
 })();
 /* ===== Menu book viewer ===== */
 (function(){
