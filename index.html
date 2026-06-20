@@ -370,25 +370,6 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .reviews-marquee:hover .reviews-track{animation-play-state:paused}
 @keyframes revscroll{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.reviews-track{animation:none}.reviews-marquee{overflow-x:auto}}
-@media(max-width:760px){
-  .reviews-marquee{overflow:visible;-webkit-mask:none;mask:none}
-  .reviews-track{
-    animation:none;
-    width:auto;
-    overflow-x:auto;
-    overflow-y:hidden;
-    scroll-snap-type:x proximity;
-    overscroll-behavior-x:contain;
-    -webkit-overflow-scrolling:touch;
-    padding:.3rem var(--pad) .6rem;
-    margin-left:calc(var(--pad) * -1);
-    margin-right:calc(var(--pad) * -1);
-    scrollbar-width:none;
-  }
-  .reviews-track::-webkit-scrollbar{display:none}
-  .rev-card{scroll-snap-align:start;transform:translateZ(0)}
-  .rev-card:hover{transform:translateZ(0)}
-}
 .rev-card{flex:0 0 min(82vw,360px);align-self:stretch;display:flex;flex-direction:column;background:var(--ink-raise);border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.8rem;transition:transform .5s var(--ease),border-color .5s var(--ease)}
 .rev-card:hover{transform:translateY(-4px);border-color:rgba(198,139,79,.42)}
 .rev-stars{display:flex;gap:.2rem;margin-bottom:1rem}
@@ -398,6 +379,11 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .rev-avatar{width:40px;height:40px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--ink);background:linear-gradient(135deg,var(--copper-2),var(--ember))}
 .rev-name{color:var(--cream);font-weight:600;font-size:.96rem}
 .rev-meta{color:var(--muted);font-size:.78rem;margin-top:.12rem}
+@media(max-width:760px){
+  .reviews-track{animation-duration:48s}
+  .rev-card{flex:0 0 min(70vw,280px);padding:1.4rem 1.5rem}
+  .rev-text{font-size:.92rem}
+}
 @media(max-width:1000px){.reviews-grid{columns:2}}
 @media(max-width:640px){.reviews-grid{columns:1}}
 .imarquee{padding:clamp(1.4rem,3vw,2.6rem) 0;-webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
