@@ -322,14 +322,33 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .brunch-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.8rem,1.8vw,1.5rem);max-width:1400px;margin:0 auto}
 .bt-img{aspect-ratio:4/5;background-size:cover;background-position:center;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.45);transition:transform 1.2s var(--ease)}
 .bt-img:hover{transform:translateY(-6px)}
-@media(max-width:760px){.brunch-trio{grid-template-columns:1fr;gap:1rem}}.brunch-list{columns:1}}
+@media(max-width:760px){.brunch-list{columns:1}}
 .cseries-media .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1.6s var(--ease)}
 .cseries-media:hover .img{transform:scale(1.04)}
 .coffee-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.8rem,1.8vw,1.4rem);max-width:1400px;margin:clamp(2rem,4vw,3.4rem) auto 0}
 .ct-img{aspect-ratio:11/10;background-size:cover;background-position:center;border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.4);transition:transform 1.2s var(--ease)}
 .ct-img:hover{transform:translateY(-6px)}
 .cseries-copy p em{font-style:italic;color:var(--copper-2)}
-@media(max-width:760px){.coffee-trio{grid-template-columns:1fr;gap:1rem}}
+@media(max-width:760px){
+  .coffee-trio,.brunch-trio{
+    display:flex;
+    grid-template-columns:none;
+    gap:.9rem;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-padding:0 5vw;
+    padding:.2rem 5vw 1rem;
+    margin-left:-5vw;
+    margin-right:-5vw;
+    max-width:none;
+    scrollbar-width:none;
+  }
+  .coffee-trio::-webkit-scrollbar,.brunch-trio::-webkit-scrollbar{display:none}
+  .ct-img,.bt-img{flex:0 0 82%;scroll-snap-align:center}
+  .ct-img.reveal,.bt-img.reveal{opacity:1;transform:none;filter:none}
+  .ct-img:hover,.bt-img:hover{transform:none}
+}
 .visit-map-wrap{margin-top:clamp(2rem,4vw,3rem);border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 70px rgba(0,0,0,.4)}
 .visit-map{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;filter:grayscale(.2) contrast(1.04) brightness(.98)}
 .reviews-head{text-align:center;max-width:640px;margin:0 auto clamp(2.4rem,5vw,3.6rem)}
@@ -387,8 +406,6 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .g-dot{width:11px;height:11px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer;transition:background .4s var(--ease),width .4s var(--ease)}
 .g-dot.on{width:30px;border-radius:6px;background:var(--copper)}
 @media(max-width:600px){
-  .coffee-trio{max-width:330px;margin-left:auto;margin-right:auto}
-  .brunch-trio{max-width:312px;margin-left:auto;margin-right:auto}
   .cseries-media{width:min(300px,100%);margin-left:auto;margin-right:auto}
   .story-media{width:min(312px,100%);margin-left:auto;margin-right:auto}
 }
