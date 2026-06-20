@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Sakapulo — Modern Nusantara Dining</title>
 <meta name="description" content="Local stories on modern plates. A modern take on Nusantara — relaxed dining, thoughtful plates. Medan, Sumatera Utara.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,8 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--ink);color:var(--cream);font-family:var(--body);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overscroll-behavior-y:none}
+body{background:var(--ink);color:var(--cream);font-family:var(--body);font-weight:300;line-height:1.6;overflow-x:hidden;overscroll-behavior-y:none;touch-action:pan-x pan-y;-webkit-font-smoothing:antialiased;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--copper);color:var(--ink)}
@@ -439,6 +440,33 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
   .cseries-media{width:min(300px,100%);margin-left:auto;margin-right:auto}
   .story-media{width:min(312px,100%);margin-left:auto;margin-right:auto}
 }
+/* ===== Menu book ===== */
+.menubook-trigger{display:block;margin:clamp(1.4rem,3.5vw,2.4rem) auto 0;max-width:330px;width:100%;background:none;border:1px solid var(--line);padding:0;cursor:pointer;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.5);transition:transform .55s var(--ease),box-shadow .55s var(--ease)}
+.menubook-trigger:hover{transform:translateY(-6px);box-shadow:0 42px 92px rgba(0,0,0,.62)}
+.menubook-cover{display:block;width:100%;height:auto;aspect-ratio:1654/2339;object-fit:cover;background:var(--ink-soft)}
+.menubook-cta{position:absolute;left:0;right:0;bottom:0;padding:3rem 1.4rem 1.35rem;display:flex;flex-direction:column;align-items:center;gap:.35rem;background:linear-gradient(transparent,rgba(8,6,5,.94))}
+.menubook-cta>span:first-child{font-family:var(--display);font-weight:400;font-size:1.18rem;letter-spacing:.01em;color:var(--cream)}
+.menubook-pages{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--copper-2)}
+.mbook{position:fixed;inset:0;z-index:9500;background:#070504;display:none;flex-direction:column;opacity:0;transition:opacity .35s var(--ease)}
+.mbook.open{display:flex;opacity:1}
+.mbook-bar{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;padding:max(.9rem,env(safe-area-inset-top)) clamp(1rem,4vw,1.6rem) .9rem;background:linear-gradient(rgba(7,5,4,.9),transparent);pointer-events:none}
+.mbook-count{font-size:.78rem;letter-spacing:.14em;color:var(--cream-dim);font-variant-numeric:tabular-nums}
+.mbook-close{pointer-events:auto;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(26,22,17,.7);color:var(--cream);font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .3s,border-color .3s}
+.mbook-close:hover{background:rgba(198,139,79,.25);border-color:var(--copper-2)}
+.mbook-track{flex:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.mbook-track::-webkit-scrollbar{display:none}
+.mbook-page{flex:0 0 100%;width:100%;height:100%;scroll-snap-align:center;display:grid;place-items:center;overflow:hidden;touch-action:pan-x;padding:clamp(.4rem,2vw,1rem)}
+.mbook-page.zoomed{touch-action:none}
+.mbook-img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transform-origin:center center;transition:transform .25s var(--ease);will-change:transform;-webkit-user-drag:none;user-select:none;border-radius:6px}
+.mbook-img.dragging{transition:none}
+.mbook-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(26,22,17,.55);color:var(--cream);font-size:1.7rem;line-height:1;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .3s,opacity .3s}
+.mbook-nav:hover{background:rgba(198,139,79,.28)}
+.mbook-prev{left:clamp(.5rem,2vw,1.4rem)}.mbook-next{right:clamp(.5rem,2vw,1.4rem)}
+.mbook-nav[disabled]{opacity:.22;pointer-events:none}
+.mbook-hint{position:absolute;bottom:max(1.1rem,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:6;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cream-dim);background:rgba(7,5,4,.66);padding:.5rem .95rem;border-radius:20px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:opacity .6s;pointer-events:none}
+.mbook-hint.gone{opacity:0}
+body.mbook-lock{overflow:hidden}
+@media(max-width:760px){.mbook-nav{display:none}}
 </style>
 </head>
 <body>
@@ -561,11 +589,13 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
   <div class="menu-head">
     <p class="eyebrow reveal">Menu Lengkap</p>
     <h2 class="reveal d1">Semua yang kami sajikan.</h2>
-    <p class="reveal d2">Pilih kategori untuk menelusuri. Setiap hidangan dibuat dengan perhatian pada setiap detail.</p>
+    <p class="reveal d2">Buku menu lengkap kami — lengkap dengan foto setiap hidangan.</p>
   </div>
-  <div class="menu-tabs" id="menu-tabs"></div>
-  <div class="menu-body" id="menu-body"></div>
-  <p class="menu-note">Semua harga dalam ribuan Rupiah (mis. 88 = Rp 88.000). Dua harga menunjukkan pilihan <em>panas / dingin</em>.</p>
+  <button class="menubook-trigger reveal d2" id="menubookOpen" aria-label="Buka buku menu lengkap">
+    <img class="menubook-cover" src="menu/pg-01.jpg" alt="Sampul buku menu Sakapulo" loading="lazy" width="1654" height="2339">
+    <span class="menubook-cta"><span>Lihat Menu Lengkap</span><span class="menubook-pages">13 Halaman · Geser &amp; Zoom</span></span>
+  </button>
+  <p class="menu-note">Ketuk untuk membuka buku menu — geser untuk berpindah halaman, cubit atau ketuk dua kali untuk memperbesar.</p>
 </section>
 
 <section class="section" id="brunch">
@@ -757,6 +787,17 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
   </div>
 </footer>
 
+<div class="mbook" id="mbook" role="dialog" aria-modal="true" aria-label="Buku Menu Sakapulo" aria-hidden="true">
+  <div class="mbook-bar">
+    <span class="mbook-count" id="mbookCount">1 / 13</span>
+    <button class="mbook-close" id="mbookClose" aria-label="Tutup menu">&times;</button>
+  </div>
+  <div class="mbook-track" id="mbookTrack"></div>
+  <button class="mbook-nav mbook-prev" id="mbookPrev" aria-label="Halaman sebelumnya">&lsaquo;</button>
+  <button class="mbook-nav mbook-next" id="mbookNext" aria-label="Halaman berikutnya">&rsaquo;</button>
+  <div class="mbook-hint" id="mbookHint">geser · ketuk dua kali / cubit untuk zoom</div>
+</div>
+
 <script>
 const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
@@ -883,6 +924,7 @@ const MENU=[
 (function(){
   const tabs=document.getElementById('menu-tabs');
   const body=document.getElementById('menu-body');
+  if(!tabs||!body)return;
   MENU.forEach((cat,i)=>{
     const b=document.createElement('button');
     b.className='tab'+(i===0?' active':'');b.textContent=cat.label;b.dataset.id=cat.id;
@@ -1077,7 +1119,101 @@ if(reduce){document.querySelectorAll('video').forEach(function(v){try{v.removeAt
   if(nx)nx.addEventListener('click',function(){go(active+1);});
   layout(); renderText(); restart();
 })();
+/* ===== Menu book viewer ===== */
+(function(){
+  var TOTAL=13;
+  var book=document.getElementById('mbook'); if(!book)return;
+  var track=document.getElementById('mbookTrack');
+  var countEl=document.getElementById('mbookCount');
+  var prevBtn=document.getElementById('mbookPrev');
+  var nextBtn=document.getElementById('mbookNext');
+  var hint=document.getElementById('mbookHint');
+  var openBtn=document.getElementById('menubookOpen');
+  var closeBtn=document.getElementById('mbookClose');
+  var built=false, cur=0, pages=[];
+  function pad(n){return n<10?'0'+n:''+n;}
+  function applyT(p){p.img.style.transform='translate('+p.x+'px,'+p.y+'px) scale('+p.scale+')';}
+  function resetZoom(p){p.scale=1;p.x=0;p.y=0;p.img.style.transform='';p.el.classList.remove('zoomed');}
+  function clampPan(p){
+    var ox=(p.img.clientWidth*p.scale - p.el.clientWidth)/2;
+    var oy=(p.img.clientHeight*p.scale - p.el.clientHeight)/2;
+    var mx=Math.max(0,ox), my=Math.max(0,oy);
+    if(p.x>mx)p.x=mx; if(p.x<-mx)p.x=-mx;
+    if(p.y>my)p.y=my; if(p.y<-my)p.y=-my;
+  }
+  function attachZoom(p){
+    var startDist=0,startScale=1,fx=0,fy=0,xS=0,yS=0,panning=false,lx=0,ly=0,lastTap=0;
+    function ctr(){var r=p.el.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};}
+    p.el.addEventListener('touchstart',function(e){
+      if(e.touches.length===2){
+        var a=e.touches[0],b=e.touches[1],c=ctr();
+        startDist=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+        startScale=p.scale; xS=p.x; yS=p.y;
+        fx=(a.clientX+b.clientX)/2-c.x; fy=(a.clientY+b.clientY)/2-c.y;
+        p.el.classList.add('zoomed'); p.img.classList.add('dragging');
+        e.preventDefault();
+      } else if(e.touches.length===1){
+        var now=Date.now();
+        if(now-lastTap<300){
+          var c=ctr(),tx=e.touches[0].clientX-c.x,ty=e.touches[0].clientY-c.y;
+          if(p.scale>1.05){resetZoom(p);} else {p.scale=2.5;p.x=tx*(1-2.5);p.y=ty*(1-2.5);clampPan(p);applyT(p);p.el.classList.add('zoomed');}
+          lastTap=0; e.preventDefault(); return;
+        }
+        lastTap=now;
+        if(p.scale>1){panning=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;p.img.classList.add('dragging');}
+      }
+    },{passive:false});
+    p.el.addEventListener('touchmove',function(e){
+      if(e.touches.length===2){
+        var a=e.touches[0],b=e.touches[1];
+        var d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+        var s=Math.min(4,Math.max(1,startScale*(d/startDist)));
+        p.scale=s;
+        p.x=fx-s*(fx-xS)/startScale;
+        p.y=fy-s*(fy-yS)/startScale;
+        clampPan(p); applyT(p); e.preventDefault();
+      } else if(panning&&e.touches.length===1){
+        var dx=e.touches[0].clientX-lx, dy=e.touches[0].clientY-ly;
+        lx=e.touches[0].clientX; ly=e.touches[0].clientY;
+        p.x+=dx; p.y+=dy; clampPan(p); applyT(p); e.preventDefault();
+      }
+    },{passive:false});
+    p.el.addEventListener('touchend',function(e){
+      if(e.touches.length===0){
+        panning=false; p.img.classList.remove('dragging');
+        if(p.scale<=1.05){resetZoom(p);} else {p.el.classList.add('zoomed');}
+      }
+    });
+    p.img.addEventListener('dblclick',function(e){
+      var c=ctr(),tx=e.clientX-c.x,ty=e.clientY-c.y;
+      if(p.scale>1.05){resetZoom(p);} else {p.scale=2.5;p.x=tx*(1-2.5);p.y=ty*(1-2.5);clampPan(p);applyT(p);p.el.classList.add('zoomed');}
+    });
+  }
+  function build(){
+    if(built)return; built=true;
+    for(var i=1;i<=TOTAL;i++){
+      var pg=document.createElement('div'); pg.className='mbook-page';
+      var img=document.createElement('img'); img.className='mbook-img';
+      img.alt='Menu Sakapulo halaman '+i; img.draggable=false;
+      img.src='menu/pg-'+pad(i)+'.jpg';
+      pg.appendChild(img); track.appendChild(pg);
+      var st={el:pg,img:img,scale:1,x:0,y:0}; pages.push(st); attachZoom(st);
+    }
+  }
+  function setCount(){countEl.textContent=(cur+1)+' / '+TOTAL;prevBtn.disabled=cur<=0;nextBtn.disabled=cur>=TOTAL-1;}
+  function goto(i,smooth){i=Math.max(0,Math.min(TOTAL-1,i));cur=i;track.scrollTo({left:i*track.clientWidth,behavior:smooth?'smooth':'auto'});setCount();}
+  var sT; track.addEventListener('scroll',function(){clearTimeout(sT);sT=setTimeout(function(){var i=Math.round(track.scrollLeft/track.clientWidth);if(i!==cur){cur=i;setCount();}},80);});
+  function open(){build();book.classList.add('open');book.setAttribute('aria-hidden','false');document.body.classList.add('mbook-lock');requestAnimationFrame(function(){goto(0,false);});if(hint){hint.classList.remove('gone');setTimeout(function(){hint.classList.add('gone');},3400);}}
+  function close(){book.classList.remove('open');book.setAttribute('aria-hidden','true');document.body.classList.remove('mbook-lock');pages.forEach(resetZoom);}
+  if(openBtn)openBtn.addEventListener('click',open);
+  if(closeBtn)closeBtn.addEventListener('click',close);
+  prevBtn.addEventListener('click',function(){goto(cur-1,true);});
+  nextBtn.addEventListener('click',function(){goto(cur+1,true);});
+  document.addEventListener('keydown',function(e){if(!book.classList.contains('open'))return;if(e.key==='Escape')close();else if(e.key==='ArrowRight')goto(cur+1,true);else if(e.key==='ArrowLeft')goto(cur-1,true);});
+})();
 ['copy','cut','contextmenu','selectstart','dragstart'].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault();});});
+['gesturestart','gesturechange','gestureend'].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault();});});
+document.addEventListener('touchmove',function(e){if(e.touches.length>1){e.preventDefault();}},{passive:false});
 </script>
 </body>
 </html>
