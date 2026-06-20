@@ -592,7 +592,7 @@ body.mbook-lock{overflow:hidden}
     <p class="reveal d2">Buku menu lengkap kami — lengkap dengan foto setiap hidangan.</p>
   </div>
   <button class="menubook-trigger reveal d2" id="menubookOpen" aria-label="Buka buku menu lengkap">
-    <img class="menubook-cover" src="menu/pg-01.jpg" alt="Sampul buku menu Sakapulo" loading="lazy" width="1654" height="2339">
+    <img class="menubook-cover" src="pg-01.jpg" alt="Sampul buku menu Sakapulo" loading="lazy" width="1654" height="2339">
     <span class="menubook-cta"><span>Lihat Menu Lengkap</span><span class="menubook-pages">13 Halaman · Geser &amp; Zoom</span></span>
   </button>
   <p class="menu-note">Ketuk untuk membuka buku menu — geser untuk berpindah halaman, cubit atau ketuk dua kali untuk memperbesar.</p>
@@ -1195,7 +1195,7 @@ if(reduce){document.querySelectorAll('video').forEach(function(v){try{v.removeAt
       var pg=document.createElement('div'); pg.className='mbook-page';
       var img=document.createElement('img'); img.className='mbook-img';
       img.alt='Menu Sakapulo halaman '+i; img.draggable=false;
-      img.src='menu/pg-'+pad(i)+'.jpg';
+      img.src='pg-'+pad(i)+'.jpg';
       pg.appendChild(img); track.appendChild(pg);
       var st={el:pg,img:img,scale:1,x:0,y:0}; pages.push(st); attachZoom(st);
     }
