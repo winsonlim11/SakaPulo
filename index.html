@@ -410,6 +410,8 @@ h1,h2,.hcard-meta h3{text-wrap:balance}
 .imarquee:hover .marquee-track{animation-play-state:paused}
 .im-card{flex:0 0 auto;height:clamp(230px,38vh,360px);border-radius:10px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 24px 60px rgba(0,0,0,.42)}
 @media(prefers-reduced-motion:reduce){.itrack{animation:none}.imarquee{overflow-x:auto}}
+.imarquee.draggable,.reviews-marquee.draggable{cursor:grab;touch-action:pan-y;user-select:none}
+.imarquee.draggable.dragging,.reviews-marquee.draggable.dragging{cursor:grabbing}
 .dish-photo{display:none}
 @media(max-width:760px){
   .dish-photo{display:block;grid-column:1/-1;aspect-ratio:16/10;background-size:cover;background-position:center;border-radius:10px;margin-bottom:.5rem;box-shadow:0 18px 44px rgba(0,0,0,.4)}
@@ -1160,19 +1162,57 @@ if(reduce){document.querySelectorAll('video').forEach(function(v){try{v.removeAt
   if(nx)nx.addEventListener('click',function(){go(active+1);});
   layout(); renderText(); restart();
 })();
-/* ===== Reviews marquee: pixel-exact seamless loop ===== */
-(function(){
-  var track=document.querySelector('.reviews-track'); if(!track)return;
-  function setLoop(){
-    var cards=track.children, half=cards.length/2;
-    if(half<1)return;
-    var dist=cards[half].offsetLeft-cards[0].offsetLeft;
-    if(dist>0)track.style.setProperty('--rev-loop',(-dist)+'px');
+/* ===== Draggable marquees: auto-scroll that can also be dragged/swiped ===== */
+function makeDraggableMarquee(containerEl,trackEl,opts){
+  if(!containerEl||!trackEl)return;
+  opts=opts||{};
+  var duration=parseFloat(getComputedStyle(trackEl).animationDuration)||40;
+  var loopWidth=0,position=0,dragging=false,hovering=false,startX=0,startPos=0,lastT=null;
+  function computeLoop(){loopWidth=opts.loopWidth?opts.loopWidth():trackEl.scrollWidth/2;}
+  function wrap(){
+    if(loopWidth<=0)return;
+    while(position<=-loopWidth)position+=loopWidth;
+    while(position>0)position-=loopWidth;
   }
-  setLoop();
-  addEventListener('resize',setLoop);
-  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(setLoop);
-})();
+  function render(t){
+    if(lastT==null)lastT=t;
+    var dt=(t-lastT)/1000;lastT=t;
+    if(!dragging&&!hovering)position-=(loopWidth/duration)*dt;
+    wrap();
+    trackEl.style.transform='translateX('+position+'px)';
+    requestAnimationFrame(render);
+  }
+  computeLoop();
+  trackEl.style.animation='none';
+  requestAnimationFrame(render);
+  containerEl.classList.add('draggable');
+  containerEl.addEventListener('pointerdown',function(e){
+    dragging=true;startX=e.clientX;startPos=position;
+    containerEl.classList.add('dragging');
+    try{containerEl.setPointerCapture(e.pointerId);}catch(err){}
+  });
+  containerEl.addEventListener('pointermove',function(e){
+    if(!dragging)return;
+    position=startPos+(e.clientX-startX);
+  });
+  function endDrag(){dragging=false;containerEl.classList.remove('dragging');}
+  containerEl.addEventListener('pointerup',endDrag);
+  containerEl.addEventListener('pointercancel',endDrag);
+  containerEl.addEventListener('mouseenter',function(){hovering=true;});
+  containerEl.addEventListener('mouseleave',function(){hovering=false;});
+  addEventListener('resize',computeLoop);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(computeLoop);
+}
+if(!reduce){
+  var imEl=document.querySelector('.imarquee'),imTrack=imEl&&imEl.querySelector('.itrack');
+  makeDraggableMarquee(imEl,imTrack);
+  var revEl=document.querySelector('.reviews-marquee'),revTrack=revEl&&revEl.querySelector('.reviews-track');
+  makeDraggableMarquee(revEl,revTrack,{loopWidth:function(){
+    var cards=revTrack.children,half=cards.length/2;
+    if(half<1)return revTrack.scrollWidth/2;
+    return cards[half].offsetLeft-cards[0].offsetLeft;
+  }});
+}
 /* ===== Menu book viewer ===== */
 (function(){
   var TOTAL=13;
